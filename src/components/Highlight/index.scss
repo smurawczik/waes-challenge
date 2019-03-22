@@ -1,0 +1,100 @@
+.highlight {
+	position: relative;
+
+	.highlight {
+
+		&--selectors {
+			width: 100%;
+			padding: 16px;
+			display: flex;
+			justify-content: space-evenly;
+
+			&-button {
+				border: 2px solid black;
+				border-radius: 4px;
+				padding: 16px;
+				&:focus {
+					outline: none;
+					border-color: $googleBlue;
+				}
+
+				&-red {
+					background-color: red;
+				}
+
+				&-green {
+					background-color: green;
+				}
+
+				&-yellow {
+					background-color: yellow;
+				}
+			}
+		}
+
+
+		&--container {
+			display: inline-block;
+	    position: relative;
+	    overflow: hidden;
+	    -webkit-text-size-adjust: none;
+	    background: #fff;
+		}
+
+		&--textarea {
+			max-width: 500px;
+			max-height: 500px;
+			min-height: 150px;
+			min-width: 300px;
+			display: block;
+			position: relative;
+			border: 2px solid $googleBlue;
+			background: none transparent;
+			font: inherit;
+
+			&:focus {
+				outline: none;
+				border-color: darken($googleBlue, 15%)
+			}
+		}
+
+		&--textarea-shadow {
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			overflow-x: hidden;
+			overflow-y: auto;
+			border: 2px solid transparent;
+
+			&-content {
+				border: 2px solid;
+				background: none transparent;
+				width: auto;
+		    height: auto;
+		    border-color: transparent;
+		    white-space: pre-wrap;
+		    word-wrap: break-word;
+		    color: transparent;
+		    overflow: hidden;
+			}
+
+			&--highlight {
+				width: auto;
+			  height: auto;
+			  border-color: transparent;
+			  white-space: pre-wrap;
+			  word-wrap: break-word;
+			  color: transparent;
+			  background-color: transparent;
+			  overflow: hidden;
+
+			  &--mark {
+			  	color: transparent;
+			  	background-color: transparent;
+			  }
+			}
+		}
+	}
+}

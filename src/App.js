@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import './App.css';
+
+import Highlight from './components/Highlight';
+
+import './styles/index.scss';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        
+      <div className="app">
+      	<Highlight />
       </div>
     );
   }
 }
 
-export default connect()(App);
+export default App;
