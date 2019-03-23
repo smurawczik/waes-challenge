@@ -8,7 +8,9 @@ export const reducers = (state = { highlights: [] }, action) => {
 
   case 'ON_HIGHLIGHT':
     if (hasFreeRange(state.highlights, action.payload)) {
-      const newHighlights = state.highlights.concat(action.payload);
+      const innerRangedHighlights = rangeIsBiggerThanHighlight(state.highlights, action.payload);
+      const highlights = state.highlights.filter((h, i) => innerRangedHighlights.indexOf(i));
+      const newHighlights = highlights.concat(action.payload);
       return {
         ...state,
         highlights: newHighlights.sort((prev, next) => prev.start - next.start),
@@ -16,8 +18,9 @@ export const reducers = (state = { highlights: [] }, action) => {
     } else {
       return state;
     }
+  case 'FILTERED_HIGHLIGHTS':
   default:
-   return state
+    return state
  }
 }
 
@@ -35,7 +38,15 @@ export const hasFreeRange = (highlights, payload) => {
     return (
       (payload.start > range[0] && payload.start < range[1])
       ||
-      (payload.end > range[0] && payload.end < range[1]) 
+      (payload.end > range[0] && payload.end < range[1])
     )
   })
+}
+
+export const rangeIsBiggerThanHighlight = (highlights, payload) => {
+  const ranges = highlights.map(h => [h.start, h.end]);
+
+  return ranges.filter(range => {
+    return (payload.start < range[0] && payload.end > range[1])
+  }).map((filtered, i) => i);
 }

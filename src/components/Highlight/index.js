@@ -52,12 +52,24 @@ class Highlight extends Component {
     // obtain the selected text
     const value = current.value.substring(start, end);
 
-    onHighlight && onHighlight({
-    	value,
-    	color,
-    	start,
-    	end,
-    });
+    if (value && start !== end) {
+	    onHighlight && onHighlight({
+	    	value,
+	    	color,
+	    	start,
+	    	end,
+	    });
+    }
+
+    this.clearTextSelection();
+	}
+
+	clearTextSelection() {
+	  if (window.getSelection().empty) {
+	    window.getSelection().empty();
+	  } else if (window.getSelection().removeAllRanges) {
+	    window.getSelection().removeAllRanges();
+	  }
 	}
 
 	buildHighlights() {
@@ -135,12 +147,12 @@ class Highlight extends Component {
 }
 
 const mapStateToProps = state => ({
- ...state
+ 	...state
 });
 
 const mapDispatchToProps = dispatch => ({
- onTextareaChange: (event) => dispatch(onTextareaChange(event.target.value)),
- onHighlight: (data) => dispatch(onHighlight(data))
+ 	onTextareaChange: (event) => dispatch(onTextareaChange(event.target.value)),
+ 	onHighlight: (data) => dispatch(onHighlight(data))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Highlight);
