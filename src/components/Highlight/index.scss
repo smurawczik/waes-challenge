@@ -1,5 +1,6 @@
 .highlight {
 	position: relative;
+	text-align: center;
 
 	.highlight {
 
@@ -42,15 +43,16 @@
 		}
 
 		&--textarea {
-			max-width: 500px;
-			max-height: 500px;
+			max-width: 800px;
+			max-height: 350px;
 			min-height: 150px;
-			min-width: 300px;
+			min-width: 500px;
 			display: block;
 			position: relative;
 			border: 2px solid $googleBlue;
 			background: none transparent;
 			font: inherit;
+			text-align: left;
 
 			&:focus {
 				outline: none;
@@ -67,6 +69,7 @@
 			overflow-x: hidden;
 			overflow-y: auto;
 			border: 2px solid transparent;
+			text-align: left;
 
 			&-content {
 				border: 2px solid;
@@ -78,6 +81,21 @@
 		    word-wrap: break-word;
 		    color: transparent;
 		    overflow: hidden;
+
+		    mark {
+		    	opacity: .35;
+			    &.red {
+			    	background-color: red;
+			    }
+
+			    &.green {
+			    	background-color: green;
+			    }
+
+			    &.yellow {
+			    	background-color: yellow;
+			    }
+		    }
 			}
 
 			&--highlight {

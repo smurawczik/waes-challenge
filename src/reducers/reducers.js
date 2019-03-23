@@ -1,17 +1,41 @@
-export default (state = { highlights: [] }, action) => {
+export const reducers = (state = { highlights: [] }, action) => {
  switch (action.type) {
   case 'ON_TEXTAREA_CHANGE':
-   return {
-    ...state,
-    mainTextareaValue: action.payload,
-   }
+    return {
+      ...state,
+      mainTextareaValue: action.payload,
+    }
 
   case 'ON_HIGHLIGHT':
-   return {
-    ...state,
-    highlights: state.highlights.concat(action.payload),
-   }
+    if (hasFreeRange(state.highlights, action.payload)) {
+      const newHighlights = state.highlights.concat(action.payload);
+      return {
+        ...state,
+        highlights: newHighlights.sort((prev, next) => prev.start - next.start),
+      }
+    } else {
+      return state;
+    }
   default:
    return state
  }
+}
+
+/**
+this function verifies if new payload is inside any of actual highlights
+to prevent them from being added
+@param highlights - current highlights
+@param payload - new highlight
+@return if payload range is inside any highlight range
+*/
+export const hasFreeRange = (highlights, payload) => {
+  const ranges = highlights.map(h => [h.start, h.end]);
+
+  return !ranges.some(range => {
+    return (
+      (payload.start > range[0] && payload.start < range[1])
+      ||
+      (payload.end > range[0] && payload.end < range[1]) 
+    )
+  })
 }

@@ -8,6 +8,34 @@ class Highlight extends Component {
 	  super(props);
 
 	  this.textarea = React.createRef();
+	  this.createMarksConfig();
+	}
+
+	createMarksConfig() {
+		this.markConfig = {
+			red: {
+				openMark: "は",
+				openMarkReplace: "<mark class='red'>",
+				closeMark: "ほ",
+				closeMarkReplace: "</mark>",
+			},
+			green: {
+				openMark: "な",
+				openMarkReplace: "<mark class='green'>",
+				closeMark: "の",
+				closeMarkReplace: "</mark>",
+			},
+			yellow: {
+				openMark: "た",
+				openMarkReplace: "<mark class='yellow'>",
+				closeMark: "と",
+				closeMarkReplace: "</mark>",
+			}
+		}
+	}
+
+	getRegExpForMark(mark) {
+		return new RegExp(mark, 'g');
 	}
 
 	componentDidMount() {
@@ -33,25 +61,48 @@ class Highlight extends Component {
 	}
 
 	buildHighlights() {
-		const { highlights } = this.props;
-		let { mainTextareaValue } = this.props;
-		let markup = mainTextareaValue;
+		let { mainTextareaValue, highlights } = this.props;
 
 		if (highlights) {
-			let joined = "";
-			highlights.forEach((highlight, i) => {
-				console.log(mainTextareaValue, joined);
-				markup = mainTextareaValue.substring(highlight.start, highlight.end)
-				if (i === 0)
-					joined = mainTextareaValue.slice(0, highlight.start) + `<mark>${markup}</mark>` + mainTextareaValue.slice(highlight.end)
-				else 
-					joined = joined.slice(0, highlight.start) + `<mark>${markup}</mark>` + joined.slice(highlight.end)
-			});
+			let joined = this.highlightsToMarks();
 
-			return [joined];
+			return this.replaceAllMarks(joined);
 		}
 
 		return mainTextareaValue;
+	}
+
+	replaceAllMarks(str) {
+		const { markConfig } = this;
+		const { red, green, yellow } = markConfig;
+		return str
+			.replace(new RegExp(`${yellow.openMark}`, 'g'), yellow.openMarkReplace)
+			.replace(new RegExp(`${yellow.closeMark}`, 'g'), yellow.closeMarkReplace)
+			.replace(new RegExp(`${red.openMark}`, 'g'), red.openMarkReplace)
+			.replace(new RegExp(`${red.closeMark}`, 'g'), red.closeMarkReplace)
+			.replace(new RegExp(`${green.openMark}`, 'g'), green.openMarkReplace)
+			.replace(new RegExp(`${green.closeMark}`, 'g'), green.closeMarkReplace)
+	}
+
+	highlightsToMarks() {
+		const { highlights } = this.props;
+		let { mainTextareaValue } = this.props;
+		let sub = "";
+
+		let joined = mainTextareaValue;
+		highlights.forEach((highlight, i) => {
+			const openMark = this.markConfig[highlight.color].openMark;
+			const closeMark = this.markConfig[highlight.color].closeMark;
+			
+			const spaceIncrementer = i * (openMark.length + closeMark.length);
+
+			sub = mainTextareaValue.substring(highlight.start, highlight.end)
+			joined = [joined.slice(0, highlight.start + spaceIncrementer), openMark + sub + closeMark, joined.slice(highlight.end + spaceIncrementer)].join('');
+
+			// console.log(`iteracion ${i}: `, joined);
+		});
+
+		return joined;
 	}
 
   render() {
