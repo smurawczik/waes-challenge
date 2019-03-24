@@ -8,6 +8,7 @@ class Highlight extends Component {
 	  super(props);
 
 	  this.textarea = React.createRef();
+	  this.highlights = React.createRef();
 	  this.createMarksConfig();
 	}
 
@@ -120,6 +121,11 @@ class Highlight extends Component {
 		return joined;
 	}
 
+	textareaScrollScroll(event) {
+    const scrollTop = event.target.scrollTop;
+    this.highlights.current.scrollTop = scrollTop;
+  }
+
   render() {
   	const { onTextareaChange, mainTextareaValue } = this.props;
 
@@ -132,13 +138,14 @@ class Highlight extends Component {
 	    			<button onClick={this.highlightSelection.bind(this, 'yellow')} className="highlight--selectors-button highlight--selectors-button-yellow"></button>
 	    		</div>
 	      	<div className="highlight--container">
-		      	<div className="highlight--textarea-shadow">
+		      	<div className="highlight--textarea-shadow" ref={this.highlights}>
 			      	<div className="highlight--textarea-shadow-content" dangerouslySetInnerHTML={{ __html: this.buildHighlights()}}></div>
 		      	</div>
 		        <textarea 
 		        	className="highlight--textarea" 
 		        	value={mainTextareaValue} 
 		        	onChange={onTextareaChange}
+		        	onScroll={this.textareaScrollScroll.bind(this)}
 		        	ref={this.textarea}
 		        >
 		        </textarea>
