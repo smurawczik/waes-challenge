@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-class FilterHighlights extends Component {
+export class FilterHighlights extends Component {
 	constructor(props) {
 	  super(props);
 	

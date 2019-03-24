@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { onTextareaChange, onHighlight } from '../../actions/';
 
-class Highlight extends Component {
+export class Highlight extends Component {
 	constructor(props) {
 	  super(props);
 
@@ -12,6 +12,9 @@ class Highlight extends Component {
 	  this.createMarksConfig();
 	}
 
+	/**
+	 * creates initial configuration to handle three kinds of highlights
+	 */
 	createMarksConfig() {
 		this.markConfig = {
 			red: {
@@ -35,14 +38,17 @@ class Highlight extends Component {
 		}
 	}
 
-	getRegExpForMark(mark) {
-		return new RegExp(mark, 'g');
-	}
-
+	/**
+	 * focus main textarea on start
+	 */
 	componentDidMount() {
 	  this.textarea.current.focus();
 	}
 
+	/**
+	 * dispatches a new highlight given a color and textareas positions
+	 * @param  {String}
+	 */
 	highlightSelection(color) {
 		const { onHighlight } = this.props;
 		const { current } = this.textarea;
@@ -66,6 +72,10 @@ class Highlight extends Component {
     this.clearTextSelection();
 	}
 
+	/**
+	 * generates a unique id
+	 * @return {String}
+	 */
 	generateId() {
 		 return Math.random().toString(36).substring(2, 15)
 	}
@@ -78,6 +88,10 @@ class Highlight extends Component {
 	  }
 	}
 
+	/**
+	 * returns html with highlights in it
+	 * @return {String}
+	 */
 	buildHighlights() {
 		let { mainTextareaValue, highlights } = this.props;
 
@@ -90,6 +104,11 @@ class Highlight extends Component {
 		return mainTextareaValue;
 	}
 
+	/**
+	 * replaces all marks in highlight string to have proper HTML rendered, based on the color of each highlight
+	 * @param  {String}
+	 * @return {String}
+	 */
 	replaceAllMarks(str) {
 		const { markConfig } = this;
 		const { red, green, yellow } = markConfig;
@@ -102,6 +121,10 @@ class Highlight extends Component {
 			.replace(new RegExp(`${green.closeMark}`, 'g'), green.closeMarkReplace)
 	}
 
+	/**
+	 * iterates highlights and adds marks to understand which highlight has which color
+	 * @return {String}
+	 */
 	highlightsToMarks() {
 		const { highlights } = this.props;
 		let { mainTextareaValue } = this.props;
@@ -121,6 +144,10 @@ class Highlight extends Component {
 		return joined;
 	}
 
+	/**
+	 * makes sure that highlight backdrop is scrolled along with textarea scroll
+	 * @param  {Event}
+	 */
 	textareaScrollScroll(event) {
     const scrollTop = event.target.scrollTop;
     this.highlights.current.scrollTop = scrollTop;

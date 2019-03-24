@@ -37,9 +37,9 @@ export const hasFreeRange = (highlights, payload) => {
 
   return !ranges.some(range => {
     return (
-      (payload.start > range[0] && payload.start < range[1])
+      (payload.start >= range[0] && payload.start <= range[1])
       ||
-      (payload.end > range[0] && payload.end < range[1])
+      (payload.end >= range[0] && payload.end <= range[1])
     )
   })
 }
@@ -60,6 +60,6 @@ export const removableHighlights = (highlights, payload) => {
   }).map((filtered, i) => filtered.id);
 }
 
-const highlightsToRange = (highlights) => {
+export const highlightsToRange = (highlights) => {
   return highlights.map(h => [h.start, h.end]);
 }
