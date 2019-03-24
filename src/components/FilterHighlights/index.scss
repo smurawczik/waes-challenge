@@ -1,8 +1,8 @@
 .filter-highlights {
 	position: relative;
-	max-width: 80%;
+	max-width: 100%;
 	margin: auto;
-	padding: 32px;
+	padding: $baseMeasure * 8;
 
 	.filter-highlights--filter-buttons {
 		display: flex;
@@ -10,25 +10,18 @@
 	}
 
 	.filter-highlights--filter-button {
-		border: 2px solid black;
-		border-radius: 4px;
-		padding: 16px;
-
-		&:focus {
-			outline: none;
-			border-color: $googleBlue;
-		}
+		@extend %filter-button;
 
 		&-red {
-			background-color: red;
+			background-color: $materialRed;
 		}
 
 		&-green {
-			background-color: green;
+			background-color: $materialGreen;
 		}
 
 		&-yellow {
-			background-color: yellow;
+			background-color: $materialYellow;
 		}
 	}
 	.filter-highlights--filtered {
@@ -36,23 +29,38 @@
 		flex-direction: column;
 		
 		.filter-highlights--filtered-texts {
-			display: inline-block;
-			margin: 0;
+			margin-top: $baseMeasure * 2;
 
 			&:first-child {
-				margin-top: 16px;
+				margin-top: $baseMeasure * 4;
 			}
 
 			&-red {
-				background-color: red;
+				p {
+					background-color: $materialRed;
+					color: white;
+				}
 			}
 
 			&-yellow {
-				background-color: yellow;
+				p {
+					background-color: $materialYellow;
+				}
 			}
 			
 			&-green {
-				background-color: green;
+				p {
+					background-color: $materialGreen;
+					color: white;
+				}
+			}
+
+			p {
+				display: inline-block;
+				border-radius: 10px;
+				margin: 0;
+				padding: $baseMeasure $baseMeasure * 2;
+
 			}
 		}
 	}

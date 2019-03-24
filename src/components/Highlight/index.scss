@@ -6,29 +6,23 @@
 
 		&--selectors {
 			width: 100%;
-			padding: 16px;
+			padding: $baseMeasure * 8;
 			display: flex;
 			justify-content: space-evenly;
 
 			&-button {
-				border: 2px solid black;
-				border-radius: 4px;
-				padding: 16px;
-				&:focus {
-					outline: none;
-					border-color: $googleBlue;
-				}
+				@extend %filter-button;
 
 				&-red {
-					background-color: red;
+					background-color: $materialRed;
 				}
 
 				&-green {
-					background-color: green;
+					background-color: $materialGreen;
 				}
 
 				&-yellow {
-					background-color: yellow;
+					background-color: $materialYellow;
 				}
 			}
 		}
@@ -50,6 +44,7 @@
 			display: block;
 			position: relative;
 			border: 2px solid $googleBlue;
+			border-radius: 4px;
 			background: none transparent;
 			font: inherit;
 			text-align: left;
@@ -85,15 +80,15 @@
 		    mark {
 		    	opacity: .35;
 			    &.red {
-			    	background-color: red;
+			    	background-color: $materialRed;
 			    }
 
 			    &.green {
-			    	background-color: green;
+			    	background-color: $materialGreen;
 			    }
 
 			    &.yellow {
-			    	background-color: yellow;
+			    	background-color: $materialYellow;
 			    }
 		    }
 			}

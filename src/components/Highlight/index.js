@@ -54,6 +54,7 @@ class Highlight extends Component {
 
     if (value && start !== end) {
 	    onHighlight && onHighlight({
+	    	id: this.generateId(),
 	    	value,
 	    	color,
 	    	start,
@@ -62,6 +63,10 @@ class Highlight extends Component {
     }
 
     this.clearTextSelection();
+	}
+
+	generateId() {
+		 return Math.random().toString(36).substring(2, 15)
 	}
 
 	clearTextSelection() {
@@ -110,8 +115,6 @@ class Highlight extends Component {
 
 			sub = mainTextareaValue.substring(highlight.start, highlight.end)
 			joined = [joined.slice(0, highlight.start + spaceIncrementer), openMark + sub + closeMark, joined.slice(highlight.end + spaceIncrementer)].join('');
-
-			// console.log(`iteracion ${i}: `, joined);
 		});
 
 		return joined;

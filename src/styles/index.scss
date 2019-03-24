@@ -16,5 +16,6 @@ code {
 	box-sizing: border-box;
 }
 
+@import '../components/Header/index.scss';
 @import '../components/Highlight/index.scss';
 @import '../components/FilterHighlights/index.scss';

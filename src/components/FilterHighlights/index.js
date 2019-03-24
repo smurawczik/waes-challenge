@@ -44,7 +44,7 @@ class FilterHighlights extends Component {
 				<div className="filter-highlights--filtered">
 					{
 						filteredHighlights && filteredHighlights.map((h, i) => {
-							return <div key={i}><p className={`filter-highlights--filtered-texts filter-highlights--filtered-texts-${h.color}`}>{h.value}</p></div>
+							return <div key={i} className={`filter-highlights--filtered-texts filter-highlights--filtered-texts-${h.color}`}><p>{h.value}</p></div>
 						})
 					}
 				</div>

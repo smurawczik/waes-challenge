@@ -5,9 +5,9 @@ export const onTextareaChange = (value) => dispatch => {
  })
 }
 
-export const onHighlight = (data) => dispatch => {
+export const onHighlight = (highlight) => dispatch => {
  dispatch({
   type: 'ON_HIGHLIGHT',
-  payload: { value: data.value, color: data.color, start: data.start, end: data.end }
+  payload: highlight,
  })
 }

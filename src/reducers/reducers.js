@@ -3,13 +3,14 @@ export const reducers = (state = { highlights: [] }, action) => {
   case 'ON_TEXTAREA_CHANGE':
     return {
       ...state,
+      highlights: [],
       mainTextareaValue: action.payload,
     }
 
   case 'ON_HIGHLIGHT':
     if (hasFreeRange(state.highlights, action.payload)) {
-      const innerRangedHighlights = rangeIsBiggerThanHighlight(state.highlights, action.payload);
-      const highlights = state.highlights.filter((h, i) => innerRangedHighlights.indexOf(i));
+      const overwriteOverlaps = removableHighlights(state.highlights, action.payload);
+      const highlights = state.highlights.filter((h, i) => overwriteOverlaps.indexOf(h.id));
       const newHighlights = highlights.concat(action.payload);
       return {
         ...state,
@@ -32,7 +33,7 @@ to prevent them from being added
 @return if payload range is inside any highlight range
 */
 export const hasFreeRange = (highlights, payload) => {
-  const ranges = highlights.map(h => [h.start, h.end]);
+  const ranges = highlightsToRange(highlights);
 
   return !ranges.some(range => {
     return (
@@ -43,10 +44,22 @@ export const hasFreeRange = (highlights, payload) => {
   })
 }
 
-export const rangeIsBiggerThanHighlight = (highlights, payload) => {
-  const ranges = highlights.map(h => [h.start, h.end]);
+/*
+this function uses its criteria to see which highlights should be overwritten / deleted
+looks for: 
+  - ranges bigger than actual ranges
+  - equality in range and color
+*/
+export const removableHighlights = (highlights, payload) => {
+  return highlights.filter(highlight => {
+    return (
+      (payload.start === highlight.start && payload.end === highlight.end && payload.color === highlight.color)
+      || 
+      (payload.start < highlight.start && payload.end > highlight.end)
+    )
+  }).map((filtered, i) => filtered.id);
+}
 
-  return ranges.filter(range => {
-    return (payload.start < range[0] && payload.end > range[1])
-  }).map((filtered, i) => i);
+const highlightsToRange = (highlights) => {
+  return highlights.map(h => [h.start, h.end]);
 }
